@@ -17,6 +17,10 @@
 * **Time-Series Visualization:** Utilize a built-in dashboard (or Grafana integration) to visualize historical data (latency, switch uptime, power consumption).
 * **Scalable Architecture:** Built on a microservices model designed to handle millions of simultaneous device connections (using Kafka/MQTT).
 
+## 📈 Workflow Diagram
+
+![nosairis-sight-workflow](https://github.com/user-attachments/assets/acdabf03-5c7e-4e35-beab-caba83e408f9)
+
 ## 🚀 Quick Start (Installation)
 
 The easiest way to get **N'osairis Sight** running is using Docker Compose.
