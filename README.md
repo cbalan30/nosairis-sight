@@ -21,6 +21,11 @@
 
 ![nosairis-sight-workflow](https://github.com/user-attachments/assets/acdabf03-5c7e-4e35-beab-caba83e408f9)
 
+
+## 📈 Entity Relationship Diagram
+<img width="800" height="500" alt="nosairis-sight-base-erd" src="https://github.com/user-attachments/assets/4413c9f0-1213-4061-8c17-2ef3f235620c" />
+
+
 ## 🚀 Quick Start (Installation)
 
 The easiest way to get **N'osairis Sight** running is using Docker Compose.
