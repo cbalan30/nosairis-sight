@@ -1,0 +1,37 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+venv/
+.venv/
+env/
+# Add your virtual environment name if different from venv/env
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+db.sqlite3  # SQLite database file - never commit this!
+media/      # User-uploaded files
+
+# Secrets
+.env        # Environment file for sensitive data
+/config/settings/local.py # Or any local settings file with secrets
+
+# OS-specific files
+.DS_Store
+Thumbs.db
