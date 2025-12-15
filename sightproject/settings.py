@@ -26,6 +26,8 @@ DATABASES = {
     }
 }
 
+
+
 # --- CELERY CONFIGURATION ---
 # 1. Message Broker: Where Celery sends and receives messages.
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0' 
@@ -48,3 +50,5 @@ try:
 except ImportError:
     # This handles cases where sightproject.celery_app cannot be imported
     pass
+
+

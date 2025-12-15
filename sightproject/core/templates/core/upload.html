@@ -1,5 +1,37 @@
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="csv_file" accept=".csv">
-    <button type="submit">Upload and Process</button>
-</form>
+
+
+{% extends 'shared/base.html' %} 
+{# CRITICAL: This line tells Django to wrap this file with base.html #}
+{% load static %}
+
+
+
+
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Please select the CSV file to process.</h5>
+                </div>
+                <div class="card-body">
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="csv_file" accept=".csv">
+                        <button class="btn btn-primary" type="submit">Upload and Process</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{# Example of injecting custom JS only for this page #}
+{% block extra_js %}
+<script>
+    // console.log("Upload page specific script loaded.");
+</script>
+{% endblock extra_js %}
