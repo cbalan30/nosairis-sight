@@ -146,3 +146,21 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- CELERY CONFIGURATION ---
+# 1. Message Broker: Where Celery sends and receives messages.
+# (If using Redis running on localhost:6379)
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0' 
+
+# 2. Result Backend: Where Celery stores task states (success/failure) and results.
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+# 3. Timezone: Important for scheduling tasks (optional for basic tasks)
+CELERY_TIMEZONE = "Asia/Kuala_Lumpur" 
+
+# 4. Optional: Accept only json to enhance security
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+
+

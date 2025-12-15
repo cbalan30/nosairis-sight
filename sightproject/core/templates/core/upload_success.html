@@ -1,0 +1,40 @@
+{% extends 'adminlte/base.html' %}
+
+{% load static %}
+
+{# --- 1. SET THE PAGE TITLE --- #}
+{% block title %}Hello World Page{% endblock title %}
+
+{# --- 2. SET THE BROWSER TAB TITLE --- #}
+{% block page_title %}Hello World!{% endblock page_title %}
+
+{# --- 3. CREATE BREADCRUMBS (Optional) --- #}
+{% block page_breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Upload</li>
+{% endblock page_breadcrumb %}
+
+
+{# --- 4. INSERT MAIN PAGE CONTENT HERE --- #}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="callout callout-success">
+                <h5>Success! CSV File has been uploaded!</h5>
+                <p>Background worker will process the file shortly.</p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{# --- 5. CUSTOM FOOTER TEXT (Optional) --- #}
+{% block footer_text %}
+    Custom Footer Text for My App.
+{% endblock footer_text %}
+
+{# --- 6. ADD CUSTOM JS (Optional) --- #}
+{% block extra_js %}
+    <script>
+        //console.log("AdminLTE 3 loaded successfully.");
+    </script>
+{% endblock extra_js %}
