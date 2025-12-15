@@ -1,0 +1,202 @@
+{% extends 'adminlte/base.html' %}
+
+{% load static %}
+
+{# --- 1. SET THE PAGE TITLE --- #}
+{% block title %}Switch Status{% endblock title %}
+
+{# --- 2. SET THE BROWSER TAB TITLE --- #}
+{% block page_title %}Switch Status{% endblock page_title %}
+
+{# --- 3. CREATE BREADCRUMBS (Optional) --- #}
+{% block page_breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Status</li>
+{% endblock page_breadcrumb %}
+
+{% block extrahead %}
+    
+{% endblock %}
+
+
+{# --- 4. INSERT MAIN PAGE CONTENT HERE --- #}
+{% block content %}
+<div class="content-header">
+    <div class="container-fluid">
+        <h1>{{ page_title }}</h1>
+    </div>
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            Switch Status History
+                        </h3>
+                        <div class="card-tools">
+                            {# ADD DATE RANGE SELECTOR HERE #}
+                            <div class="input-group">
+                                <button type="button" class="btn btn-default float-right" id="dateRangeButton">
+                                    <i class="far fa-calendar-alt"></i> 
+                                    <span>Select Date Range</span>
+                                    <i class="fas fa-caret-down"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="switchStatusChart" style="height: 400px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{# --- 5. CUSTOM FOOTER TEXT (Optional) --- #}
+{% block footer_text %}
+    Custom Footer Text for My App.
+{% endblock footer_text %}
+
+{# --- 6. ADD CUSTOM JS (Optional) --- #}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.css">
+<style>
+    /* This overrides the default z-index for the daterangepicker 
+    to make sure it sits above the standard AdminLTE card elements.
+    */
+    .daterangepicker {
+        z-index: 9999 !important; /* Extremely high value to ensure visibility */
+    }
+</style>
+{% endblock extra_css %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+
+<script>
+    // Global variable to hold the chart instance
+    let switchStatusChart = null; 
+    const chartUrl = "{% url 'switch_status_data' %}";
+
+    // --- 1. Date Range Picker Initialization ---
+    $('#dateRangeButton').daterangepicker(
+        {
+            ranges: {
+                'Today': [moment(), moment()],
+                'Last 24 Hours': [moment().subtract(24, 'hours'), moment()],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            startDate: moment().subtract(24, 'hours'), // Default to last 24 hours
+            endDate: moment(),
+            timePicker: true, // Enable time selection
+            timePicker24Hour: true,
+            drops: 'auto',
+            locale: {
+                format: 'YYYY-MM-DD HH:mm:ss' // Format for passing to Django
+            }
+        },
+        function (start, end) {
+            // Update the button text
+            $('#dateRangeButton span').html(start.format('MMM D, HH:mm') + ' - ' + end.format('MMM D, HH:mm'));
+            
+            // Pass the formatted dates and trigger chart reload
+            loadSwitchStatusChart(start.format('YYYY-MM-DD HH:mm:ss'), end.format('YYYY-MM-DD HH:mm:ss'));
+        }
+    );
+
+    // Initial button text on load
+    $('#dateRangeButton').data('daterangepicker').callback(
+        $('#dateRangeButton').data('daterangepicker').startDate,
+        $('#dateRangeButton').data('daterangepicker').endDate
+    );
+
+
+    // --- 2. Chart Loading Function (Modified) ---
+    function loadSwitchStatusChart(start_dt, end_dt) {
+        
+        // Construct the URL with query parameters for start and end dates
+        const dataUrl = `${chartUrl}?start_date=${start_dt}&end_date=${end_dt}`;
+
+        $.getJSON(dataUrl, function(data) {
+            
+            // Destroy existing chart instance before creating a new one
+            if (switchStatusChart) {
+                switchStatusChart.destroy();
+            }
+
+            // ... (The rest of your chart dataset preparation logic remains the same) ...
+            const chartDatasets = data.datasets.map(function(dataset, index) {
+                const colors = ['#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8'];
+                const color = colors[index % colors.length];
+                
+                return {
+                    label: dataset.label,
+                    data: dataset.data,
+                    backgroundColor: 'rgba(0, 0, 0, 0)', 
+                    borderColor: color,
+                    pointRadius: 3,
+                    pointHoverRadius: 5,
+                    borderWidth: 2,
+                    fill: false,
+                    stepped: true,
+                    // Note: Chart.js 4+ uses 'segment' for advanced styling, 
+                    // this part can be simplified/removed if not using advanced color-per-segment logic.
+                };
+            });
+
+            // --- 3. Initialize the Chart ---
+            const ctx = document.getElementById('switchStatusChart').getContext('2d');
+            
+            switchStatusChart = new Chart(ctx, { // Assign to the global variable
+                type: 'line', 
+                data: {
+                    labels: data.labels, 
+                    datasets: chartDatasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    // ... (Other options like scales and ticks are the same) ...
+                    scales: {
+                        x: {
+                            type: 'category', 
+                            title: { display: true, text: 'Time (log_at)' },
+                            ticks: { maxTicksLimit: 15 }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1,
+                            beginAtZero: true,
+                            title: { display: true, text: 'Status (0=OFF, 1=ON)' },
+                            ticks: { stepSize: 1, callback: function(value) { return value === 1 ? 'ON' : 'OFF'; } }
+                        }
+                    },
+                }
+            });
+        }).fail(function() {
+            console.error("Failed to load chart data.");
+            // Handle error (e.g., show a message to the user)
+        });
+    }
+
+    // Load chart initially with default 24h range
+    $(function () {
+        const picker = $('#dateRangeButton').data('daterangepicker');
+        loadSwitchStatusChart(picker.startDate.format('YYYY-MM-DD HH:mm:ss'), picker.endDate.format('YYYY-MM-DD HH:mm:ss'));
+    });
+</script>
+{% endblock extra_js %}

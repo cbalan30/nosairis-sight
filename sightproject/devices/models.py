@@ -53,6 +53,7 @@ class SwitchStatus(models.Model):
     switch_id = models.IntegerField(null=False)
     log_at = models.DateTimeField(null=False)
     status = models.BooleanField(default=False)
+    switchobj = models.ForeignKey(Switch, on_delete=models.CASCADE, null=True)
 
            
     # This method defines the string representation of an object
