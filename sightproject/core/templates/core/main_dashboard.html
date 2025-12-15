@@ -1,0 +1,49 @@
+{% extends 'adminlte/base.html' %}
+
+{% load static %}
+
+{# --- 1. SET THE PAGE TITLE --- #}
+{% block title %}Hello World Page{% endblock title %}
+
+{# --- 2. SET THE BROWSER TAB TITLE --- #}
+{% block page_title %}Hello World!{% endblock page_title %}
+
+{# --- 3. CREATE BREADCRUMBS (Optional) --- #}
+{% block page_breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Hello</li>
+{% endblock page_breadcrumb %}
+
+
+{# --- 4. INSERT MAIN PAGE CONTENT HERE --- #}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h5 class="m-0">Welcome to AdminLTE 3!</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">This is your custom content area.</h6>
+                    <p class="card-text">
+                        Hello World! This page is styled and laid out using the
+                        `django-adminlte3` base template.
+                    </p>
+                    <a href="{% url 'admin:index' %}" class="btn btn-primary">Go to Django Admin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{# --- 5. CUSTOM FOOTER TEXT (Optional) --- #}
+{% block footer_text %}
+    Custom Footer Text for My App.
+{% endblock footer_text %}
+
+{# --- 6. ADD CUSTOM JS (Optional) --- #}
+{% block extra_js %}
+    <script>
+        console.log("AdminLTE 3 loaded successfully.");
+    </script>
+{% endblock extra_js %}
