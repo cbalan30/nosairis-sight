@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from devices.models import Switch, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
+from devices.models import Switch, SwitchAlerts, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
 
 @receiver(post_save, sender='core.RawData')
 def new_entry_handler(sender, instance, created, **kwargs):
@@ -81,3 +81,8 @@ def new_entry_handler(sender, instance, created, **kwargs):
                 switch_status_entry.save()
 
                 print(f"--- Switch Status saved for Switch ID: {switch_id} at {instance.logtime} with status {switch_status}")
+
+            if switch_status == 0:
+                switch_alert_entry = SwitchAlerts(switch_id=switch_id, alert_type='Ping Lost', log_at=instance.logtime)
+                switch_alert_entry.save()
+                print(f"--- ALERT: Ping Lost {switch_id} is ON at {instance.logtime}")

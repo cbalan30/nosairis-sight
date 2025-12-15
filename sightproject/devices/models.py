@@ -78,3 +78,20 @@ class TerminalStatus(models.Model):
     class Meta:
         unique_together = (('switch_terminal_id', 'log_at'),)
         ordering = ['log_at',  'switch_terminal_id']           
+
+
+class SwitchAlerts(models.Model):
+
+    switch_id = models.IntegerField(null=False)
+    alert_type = models.CharField(max_length=50)
+    log_at = models.DateTimeField(null=False)
+    notified_at = models.DateTimeField(auto_now_add=True)
+    
+
+           
+    # This method defines the string representation of an object
+    def __str__(self):
+        return str(self.switch_id) + " - " + str(self.alert_type)
+
+    class Meta:
+        ordering = ['notified_at',  'switch_id']     
