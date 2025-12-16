@@ -11,11 +11,11 @@
 
 ## ✨ Key Features
 
-* **Real-time Switch Status:** Instantly monitor the binary state (On/Off) and current/voltage draw of connected IoT power switches.
-* **Terminal Output Logging:** Capture and stream terminal and console output from remote edge devices for live diagnostics and historical analysis.
-* **Intelligent Alerting:** Define custom rules to trigger alerts (e.g., email, webhook, SMS) when a device fails to check in, or terminal logs contain specific error patterns (`FATAL`, `EXCEPTION`).
-* **Time-Series Visualization:** Utilize a built-in dashboard (or Grafana integration) to visualize historical data (latency, switch uptime, power consumption).
-* **Scalable Architecture:** Built on a microservices model designed to handle millions of simultaneous device connections (using Kafka/MQTT).
+* **Real-time Switch Status:** Instantly monitor the binary state (UP/DOWN) and connected switches.
+* **Terminal Ping Results Logging:** Capture ping results for diagnostics and historical analysis.
+* **Alerting:** Alert is triggered when the is detected to be DOWN.
+* **Time-Series Visualization:** Visualize Switch status in graphical view.
+* **Scalable Architecture:** Built on a microservices model designed to handle millions of simultaneous data entry (using REDIS and Celery).
 
 ## 📈 Workflow Diagram
 
@@ -26,66 +26,95 @@
 <img width="800" height="500" alt="nosairis-sight-base-erd" src="https://github.com/user-attachments/assets/4413c9f0-1213-4061-8c17-2ef3f235620c" />
 
 
-## 🚀 Quick Start (Installation)
+## 🚀 Quick Start (Installation & useful commands)
 
-The easiest way to get **N'osairis Sight** running is using Docker Compose.
+### Install Python
+`sudo apt install python3`
 
-### Prerequisites
+### Python Version
+`python3 --version`
 
-* Docker (v20.10.0 or later)
-* Docker Compose (v2.0.0 or later)
+### Create Virtual Environment
+`python3 -m venv .venv`
 
-### Steps
+### Activate Virtual Environment
+`source .venv/bin/activate`
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone [https://github.com/YourOrg/nosairis-sight.git](https://github.com/YourOrg/nosairis-sight.git)
-    cd nosairis-sight
-    ```
+### Deactivate Virtual Environnt
+`deactivate`
 
-2.  **Configure Environment Variables:**
-    Copy the sample environment file and adjust necessary variables (e.g., database credentials, SMTP settings for alerts).
+### Install Django framework
+`python3 -m pip install Django`
 
-    ```bash
-    cp .env.example .env
-    # Edit the .env file with your specific settings
-    ```
+### Check Django version
+`python3 -m django --version`
 
-3.  **Start the Services:**
-    This command will start the Core API, Message Broker (Kafka/Mosquitto), Time-Series Database, and the Web UI.
+### Re-applying changes to the projects/setting/etc.
+`python3 manage.py migrate`
 
-    ```bash
-    docker-compose up -d
-    ```
+### Reload model changes
+`python3 manage.py makemigrations`
 
-4.  **Access the Dashboard:**
-    Open your browser to the following address:
+### Apply model changes to DB
+`python3 manage.py migrate core`
 
-    > 🌐 **`http://localhost:3000`**
+### Django shell console
+`python3 manage.py shell`
 
----
+### Django create App
+`python3 manage.py startapp parser`
 
-## 💻 Technical Stack
+### Start Django Project
+`django-admin startproject <project_name>`
 
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Ingestion Layer** | Go (Golang) | High-concurrency service for low-latency device connection handling. |
-| **Data Pipeline** | Apache Kafka / MQTT | Reliable, scalable message broker for buffering streaming data. |
-| **Core API / Rules** | Java / Spring Boot | Manages user accounts, alerting rules, and device state. |
-| **Database** | TimescaleDB (PostgreSQL) | Optimized Time-Series Database for metrics storage. |
-| **Frontend** | React / TypeScript | Component-based, real-time web dashboard. |
+### Start server
+do this from main project folder
+`python3 manage.py runserver`
 
-## 🧩 Device Integration (The Client)
+### Install AdminLTE Template
+`pip install django-adminlte3`
 
-To connect an IoT device, you need to use our lightweight **N'osairis Agent** or publish directly to the MQTT broker.
+### Get AdminLTE static assets into project folder
+`python3 manage.py collectstatic`
 
-### Publishing Switch Status (Example)
+### create superuser
+`python3 manage.py createsuperuser`
 
-Devices can post JSON data to the ingestion endpoint:
-```json
-{
-  "device_id": "Switch-001",
-  "metric": "switch_status",
-  "value": 1, 
-  "timestamp": 1704067200
-}
+### Install Celery
+`pip install celery redis`
+
+### Install Redis
+`sudo apt install redis-server`
+
+### Start Redis
+`/nosairis-sight/sightproject/ redis-server`
+
+### Start Celery App
+`/nosairis-sight/sightproject/ ../.venv/bin/celery -A celeryapp worker -l info`
+
+### Start Server
+`/mnt/d/projects/NOSAIRIS/repo/nosairis-sight/sightproject/ runserver`
+
+
+
+## 💻 Screenshots
+
+<img width="929" height="484" alt="screenshot01" src="https://github.com/user-attachments/assets/877e0804-ace9-4e2e-81a0-caf4fcc30b25" />
+
+<img width="918" height="482" alt="screenshot02" src="https://github.com/user-attachments/assets/5e120e60-bf7c-4088-954d-6beb26d0e6dd" />
+
+<img width="929" height="483" alt="screenshot03" src="https://github.com/user-attachments/assets/d96c1b6c-be0d-4a2a-9c9d-f657f655cf0d" />
+
+<img width="929" height="483" alt="screenshot04" src="https://github.com/user-attachments/assets/0e71dcde-ce34-40b1-a7e3-58809593d1ac" />
+
+<img width="830" height="409" alt="screenshot05" src="https://github.com/user-attachments/assets/42053fc6-9d7c-4eb6-8a6d-bbe59bcf8758" />
+
+<img width="928" height="484" alt="screenshot06" src="https://github.com/user-attachments/assets/256acce2-3157-4480-bf03-a7fbbcf4e739" />
+
+<img width="928" height="483" alt="screenshot07" src="https://github.com/user-attachments/assets/827a17f1-eb3d-41de-9d14-b18b0f2ed42b" />
+
+<img width="927" height="484" alt="screenshot08" src="https://github.com/user-attachments/assets/d2070df2-1fed-41b2-b561-135024137501" />
+
+
+
+
