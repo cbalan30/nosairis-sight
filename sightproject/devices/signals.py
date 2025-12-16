@@ -77,12 +77,12 @@ def new_entry_handler(sender, instance, created, **kwargs):
                 switch_status = 1;
     
             if not SwitchStatus.objects.filter(switch_id=switch_id, log_at= instance.logtime).exists():
-                switch_status_entry = SwitchStatus(switch_id=switch_id, log_at=instance.logtime, status=switch_status)
+                switch_status_entry = SwitchStatus(switch_id=switch_id, log_at=instance.logtime, status=switch_status, switchobj=switch)
                 switch_status_entry.save()
 
                 print(f"--- Switch Status saved for Switch ID: {switch_id} at {instance.logtime} with status {switch_status}")
 
             if switch_status == 0:
-                switch_alert_entry = SwitchAlerts(switch_id=switch_id, alert_type='Ping Lost', log_at=instance.logtime)
+                switch_alert_entry = SwitchAlerts(switch_id=switch_id, alert_type='Ping Lost', log_at=instance.logtime, switchobj=switch)
                 switch_alert_entry.save()
                 print(f"--- ALERT: Ping Lost {switch_id} is ON at {instance.logtime}")

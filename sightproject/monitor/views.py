@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
 from django.db.models import F
-
+from django.views.generic import ListView
 from devices.models import Switch, SwitchAlerts, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
 from datetime import datetime, timedelta
 
@@ -166,3 +166,16 @@ class SwitchStatusDataView(View):
         }
         
         return JsonResponse(data)
+    
+
+
+class SwitchAlertsListView(ListView):
+    model = SwitchAlerts
+    template_name = 'monitor/switch_alerts_datatable.html'
+    context_object_name = 'alerts_list'
+    paginate_by = 50 # Optional: You can let DataTables handle pagination, but this is good practice
+
+    def get_queryset(self):
+        # Use select_related('switchobj') to fetch the related Switch object 
+        # in the same database query. This is crucial for performance.
+        return SwitchAlerts.objects.select_related('switchobj').all()

@@ -1,0 +1,138 @@
+{% extends 'adminlte/base.html' %}
+
+{% load static %}
+
+{# --- 1. SET THE PAGE TITLE --- #}
+{% block title %}Switch Alerts{% endblock title %}
+
+{# --- 2. SET THE BROWSER TAB TITLE --- #}
+{% block page_title %}Switch Alerts{% endblock page_title %}
+
+{# --- 3. CREATE BREADCRUMBS (Optional) --- #}
+{% block page_breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Alerts</li>
+{% endblock page_breadcrumb %}
+
+{% block extrahead %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.13.8/datatables.min.css"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css"/>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"/>
+{% endblock extra_css %}
+    
+{% endblock %}
+
+
+{# --- 4. INSERT MAIN PAGE CONTENT HERE --- #}
+{% block content %}
+<div class="content">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Alert Report</h1>
+                </div>
+            </div>
+        </div></section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">All Switch Alerts</h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="switchAlertsTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Switch</th>
+                                        <th>Alert Type</th>
+                                        <th>Alert Date/Time</th>
+                                        <th>Email Notification Date/Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for alert in alerts_list %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>
+                                            {% if alert.switchobj %}
+                                                {{ alert.switchobj.switch_name }}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ alert.alert_type }}</td>
+                                        <td>{{ alert.log_at|date:"Y-m-d H:i:s" }}</td>
+                                        <td>{{ alert.notified_at|date:"Y-m-d H:i:s" }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Switch</th>
+                                        <th>Alert Type</th>
+                                        <th>Alert Date/Time</th>
+                                        <th>Email Notification Date/Time</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.8/datatables.min.js"></script>
+
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+
+<script>
+  $(function () {
+    // Initialize the DataTable using the table ID
+    $("#switchAlertsTable").DataTable({
+        // AdminLTE default feature configuration
+        "responsive": true, 
+        "lengthChange": false,
+        "autoWidth": false,
+        // Enable and configure the buttons for export and column visibility
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#switchAlertsTable_wrapper .col-md-6:eq(0)');
+  });
+</script>
+{% endblock extra_js %}
+
+
+{# --- 5. CUSTOM FOOTER TEXT (Optional) --- #}
+{% block footer_text %}
+    Custom Footer Text for My App.
+{% endblock footer_text %}
+
+{# --- 6. ADD CUSTOM JS (Optional) --- #}
+
+
+

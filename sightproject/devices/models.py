@@ -83,11 +83,11 @@ class TerminalStatus(models.Model):
 
 class SwitchAlerts(models.Model):
 
-    switch_id = models.IntegerField(null=False)
+    switch_id = models.IntegerField(null=False, unique=True)
     alert_type = models.CharField(max_length=50)
     log_at = models.DateTimeField(null=False)
     notified_at = models.DateTimeField(auto_now_add=True)
-    
+    switchobj = models.ForeignKey(Switch, on_delete=models.CASCADE, null=True, to_field='switch_id')
 
            
     # This method defines the string representation of an object
