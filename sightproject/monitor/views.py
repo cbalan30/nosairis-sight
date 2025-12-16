@@ -4,6 +4,7 @@ from django.views import View
 from django.db.models import F
 from django.views.generic import ListView
 from devices.models import Switch, SwitchAlerts, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
+from core.models import RawData
 from datetime import datetime, timedelta
 
 # Create your views here.
@@ -147,3 +148,17 @@ class SwitchAlertsListView(ListView):
         # Use select_related('switchobj') to fetch the related Switch object 
         # in the same database query. This is crucial for performance.
         return SwitchAlerts.objects.select_related('switchobj').all()
+    
+
+
+class RawDataListView(ListView):
+    model = RawData
+    template_name = 'monitor/raw_data_datatable.html'
+    context_object_name = 'data_list'
+    paginate_by = 50 
+
+    def get_queryset(self):
+        return RawData.objects.all()
+    
+
+
