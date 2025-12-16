@@ -83,7 +83,7 @@ class TerminalStatus(models.Model):
 
 class SwitchAlerts(models.Model):
 
-    switch_id = models.IntegerField(null=False, unique=True)
+    switch_id = models.IntegerField(null=False)
     alert_type = models.CharField(max_length=50)
     log_at = models.DateTimeField(null=False)
     notified_at = models.DateTimeField(auto_now_add=True)
