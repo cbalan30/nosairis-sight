@@ -34,43 +34,26 @@ class SwitchStatusDataViewByRange(View):
     def get(self, request, *args, **kwargs):
         
         # 1. Get query parameters
-        # We expect dates in 'YYYY-MM-DD HH:mm:ss' format
-        start_date_str = request.GET.get('start_date')
-        end_date_str = request.GET.get('end_date')
+        user_switch_id = request.GET.get('switch_id')
 
-        # 2. Set default date range (e.g., last 24 hours if dates are missing)
-        end_dt = datetime.now()
-        start_dt = end_dt - timedelta(hours=24) # Default
 
-        try:
-            if start_date_str and end_date_str:
-                # Parse the strings into datetime objects
-                # dateutil.parser is robust for various formats
-                start_dt = parser.parse(start_date_str)
-                end_dt = parser.parse(end_date_str)
-        except Exception as e:
-            # Handle parsing errors, fall back to default range
-            print(f"Date parsing error: {e}. Using default range.")
 
 
         # 3. Filter the queryset by the dynamic date range
-        queryset = SwitchStatus.objects.select_related('switchobj').filter(
-            log_at__gte=start_dt,
-            log_at__lte=end_dt
-        ).order_by('log_at')
+        queryset = SwitchStatus.objects.select_related('switchobj').filter(switch_id=user_switch_id).order_by('-log_at')
 
         # --- (The rest of your data structuring logic remains the same) ---
         
         chart_data = {}
         
         for status_log in queryset.iterator():
-            switch_label = status_log.switchobj.switch_label if status_log.switchobj else f"ID {status_log.switch_id}"
+            switch_name = status_log.switchobj.switch_name if status_log.switchobj else f"ID {status_log.switch_id}"
             
-            if switch_label not in chart_data:
-                chart_data[switch_label] = {'labels': [], 'data': []}
+            if switch_name not in chart_data:
+                chart_data[switch_name] = {'labels': [], 'data': []}
             
-            chart_data[switch_label]['labels'].append(status_log.log_at.strftime('%Y-%m-%d %H:%M:%S'))
-            chart_data[switch_label]['data'].append(1 if status_log.status else 0)
+            chart_data[switch_name]['labels'].append(status_log.log_at.strftime('%Y-%m-%d %H:%M:%S'))
+            chart_data[switch_name]['data'].append(1 if status_log.status else 0)
 
         # 4. Format the final output structure
         datasets = []
@@ -100,45 +83,30 @@ class SwitchStatusDataView(View):
     """
     def get(self, request, *args, **kwargs):
         # 1. Get query parameters (e.g., to filter by a specific switch)
-        switch_id = request.GET.get('switch_id')
+        user_switch_id = request.GET.get('switch_id')
         
-        # 2. Get the latest data (e.g., for the last 24 hours)
-        time_limit = datetime.now() - timedelta(hours=24)
-        
-        # Start with all status logs, filtered by time
-        # queryset = SwitchStatus.objects.filter(log_at__gte=time_limit).order_by('log_at')
 
-        queryset = SwitchStatus.objects.select_related('switchobj').filter(
-            log_at__gte='2019-11-27 18:00:00',
-            log_at__lte='2019-11-27 18:05:00'
-        ).order_by('log_at')
-        
-        if switch_id:
-            try:
-                # Filter by the requested switch if a valid ID is provided
-                queryset = queryset.filter(switch_id=int(switch_id))
-            except ValueError:
-                # Handle invalid ID gracefully
-                pass
+        queryset = SwitchStatus.objects.select_related('switchobj').filter(switch_id=user_switch_id).order_by('-log_at')[:100]
+
 
         # 3. Structure the data for Chart.js
-        # Group data by switch_label to support multiple lines on one chart
+        # Group data by switch_name to support multiple lines on one chart
         chart_data = {}
         
         for status_log in queryset.select_related('switchobj').iterator():
-            switch_label = status_log.switchobj.switch_label if status_log.switchobj else f"ID {status_log.switch_id}"
+            switch_name = status_log.switchobj.switch_name if status_log.switchobj else f"ID {status_log.switch_id}"
             
-            if switch_label not in chart_data:
-                chart_data[switch_label] = {
+            if switch_name not in chart_data:
+                chart_data[switch_name] = {
                     'labels': [],  # log_at timestamps
                     'data': [],    # status (0 or 1)
                 }
             
             # log_at formatted for display (e.g., 'HH:MM:SS')
-            chart_data[switch_label]['labels'].append(status_log.log_at.strftime('%Y-%m-%d %H:%M:%S'))
+            chart_data[switch_name]['labels'].append(status_log.log_at.strftime('%Y-%m-%d %H:%M:%S'))
             
             # Status converted to integer: False -> 0, True -> 1
-            chart_data[switch_label]['data'].append(1 if status_log.status else 0)
+            chart_data[switch_name]['data'].append(1 if status_log.status else 0)
 
         # 4. Format the final output structure
         datasets = []
