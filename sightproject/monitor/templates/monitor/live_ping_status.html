@@ -819,6 +819,7 @@
         let pingStatusS1 = {};
         let pingStatusS2 = {};
         let pingStatusS3 = {};
+        const requiredKeys = ['T1', 'T2', 'T3', 'T4', 'T5'];
 
         // Open connection
         const socket = new WebSocket('ws://' + window.location.host + '/ws/chart/');
@@ -926,23 +927,26 @@
 
             function updateSwitchStatus(switchId) {
                 let pingStatus = 0;
+                let pingStatusObj = {};
 
                  const iconElem = document.getElementById('iconS' + switchId);
                  const statusElem = document.getElementById('statusS' + switchId);
                 switch(switchId) {
                     case 1:
-                        pingStatus = Object.values(pingStatusS1).includes(1) ? 1 : 0;
+                        pingStatusObj = pingStatusS1;
                         break;
                     case 2:
-                        pingStatus = Object.values(pingStatusS2).includes(1) ? 1 : 0;
+                        pingStatusObj = pingStatusS2;
                         break;
                     case 3:
-                        pingStatus = Object.values(pingStatusS3).includes(1) ? 1 : 0;
+                        pingStatusObj = pingStatusS3;                        
                         break;
                     default:
                         console.error("Unknown switch ID: " + switchId);
                         return; // Exit the function if unknown ID
                 }
+
+                pingStatus = Object.values(pingStatusObj).includes(1) ? 1 : 0;
 
                 if (pingStatus === 1) {
                     iconElem.className = 'info-box-icon bg-success elevation-1';
@@ -951,6 +955,67 @@
                     iconElem.className = 'info-box-icon bg-danger elevation-1';
                     statusElem.textContent = 'DOWN';
                 }
+
+                const hasAllFive = requiredKeys.every(key => pingStatusObj.hasOwnProperty(key));
+                if (hasAllFive){
+                    // Send AJAX request to update database
+                    updateSwitchRawData(switchId, pingStatusObj);
+                    resetPingStatus(switchId);
+                }
+            }
+
+            function resetPingStatus(switchId) {
+                switch(switchId) {
+                    case 1:
+                        pingStatusS1 = {};
+                        break;
+                    case 2:
+                        pingStatusS2 = {};
+                        break;
+                    case 3:
+                        pingStatusS3 = {};
+                        break;
+                    default:
+                        console.error("Unknown switch ID: " + switchId);
+                        return; // Exit the function if unknown ID
+                }                
+            }
+
+            async function updateSwitchRawData(switchId, pingStatusObj) {
+                const response = await fetch('/monitor/update_switch_data/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken') // Function to get CSRF token
+                    },
+                    body: JSON.stringify({
+                        switch_id: switchId,
+                        t1: pingStatusObj['T1'],
+                        t2: pingStatusObj['T2'],
+                        t3: pingStatusObj['T3'],
+                        t4: pingStatusObj['T4'],
+                        t5: pingStatusObj['T5']
+                    })
+                });
+
+                const result = await response.json();
+                console.log(result);
+            }
+
+            // Helper function to get CSRF token from cookies
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
             }
     </script>
 {% endblock extra_js %}

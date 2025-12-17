@@ -1,11 +1,12 @@
 from django.shortcuts import render
+import json
 from django.http import JsonResponse
 from django.views import View
 from django.db.models import F
 from django.views.generic import ListView
 from devices.models import Switch, SwitchAlerts, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
 from core.models import RawData
-from datetime import datetime, timedelta
+from django.utils import timezone
 
 # Create your views here.
 def switch_status(request):
@@ -163,5 +164,30 @@ class RawDataListView(ListView):
     def get_queryset(self):
         return RawData.objects.all()
     
+
+
+
+def UpdateRawData(request):
+    if request.method == 'POST':
+        try:
+            # Parse the JSON data sent by AJAX
+            data = json.loads(request.body)
+            
+            # Create a new database record
+            new_record = RawData.objects.create(
+                switch_label = f"S{data.get('switch_id')}",
+                t1=bool(data.get('t1')),
+                t2=bool(data.get('t2')),
+                t3=bool(data.get('t3')),
+                t4=bool(data.get('t4')),
+                t5=bool(data.get('t5')),  
+                logtime=timezone.now()
+            )
+            
+            return JsonResponse({'status': 'success', 'id': new_record.id}, status=201)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+            
+    return JsonResponse({'status': 'invalid method'}, status=405)
 
 

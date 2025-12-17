@@ -97,8 +97,8 @@ def notify_chart_update(sender, instance, **kwargs):
     
     # Prepare the data you want to send to the chart
     data = {
-        "label": str(instance.timestamp),
-        "value": instance.value
+        "label": str(instance.log_at),
+        "value": int(instance.status)
     }
     
     # Broadcast to the "live_chart_updates" group

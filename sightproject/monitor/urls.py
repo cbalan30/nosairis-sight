@@ -19,4 +19,6 @@ urlpatterns = [
     path('report/', views.RawDataListView.as_view(), name='raw_data_list'),
 
     path('live/', views.live_ping_status, name='live_ping_status'),
+
+    path('update_switch_data/', views.UpdateRawData, name='update_switch_data'),
 ]
