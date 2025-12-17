@@ -14,6 +14,9 @@ def switch_status(request):
 def switch_live(request):
     return render(request, 'monitor/switch_live_chart.html', {})
 
+def live_ping_status(request):
+    return render(request, 'monitor/live_ping_status.html', {})
+
 class SwitchStatusChartView(View):
     """
     View to render the chart page.

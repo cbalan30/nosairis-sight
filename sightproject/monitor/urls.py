@@ -18,5 +18,5 @@ urlpatterns = [
 
     path('report/', views.RawDataListView.as_view(), name='raw_data_list'),
 
-    path('live/', views.switch_live, name='switch_live'),
+    path('live/', views.live_ping_status, name='live_ping_status'),
 ]

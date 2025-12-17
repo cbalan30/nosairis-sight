@@ -1,0 +1,956 @@
+{% extends 'adminlte/base.html' %}
+
+{% load static %}
+
+{# --- 1. SET THE PAGE TITLE --- #}
+{% block title %}Hello World Page{% endblock title %}
+
+{# --- 2. SET THE BROWSER TAB TITLE --- #}
+{% block page_title %}Hello World!{% endblock page_title %}
+
+{# --- 3. CREATE BREADCRUMBS (Optional) --- #}
+{% block page_breadcrumb %}
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active">Upload</li>
+{% endblock page_breadcrumb %}
+
+
+{# --- 4. INSERT MAIN PAGE CONTENT HERE --- #}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            
+            <div class="row">
+                <div class="col-lg-3">                    
+                    <div class="info-box mb-3">
+                        <span id="iconS1" class="info-box-icon bg-default elevation-1"><i class="fas fa-memory"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">SW-S1</span>
+                            <span id="statusS1" class="info-box-number">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT1" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T1</span>
+                                    <span id="statusT1" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT1"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT2" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T2</span>
+                                    <span id="statusT2" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT2"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT3" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T3</span>
+                                    <span id="statusT3" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT3"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT4" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T4</span>
+                                    <span id="statusT4" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT4"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT5" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T5</span>
+                                    <span id="statusT5" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT5"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">                    
+                    <div class="info-box mb-3">
+                        <span id="iconS2" class="info-box-icon bg-default elevation-1"><i class="fas fa-memory"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">SW-S2</span>
+                            <span id="statusS2" class="info-box-number">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT6" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T6</span>
+                                    <span id="statusT6" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT6"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT7" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T7</span>
+                                    <span id="statusT7" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT7"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT8" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T8</span>
+                                    <span id="statusT8" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT8"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT9" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T9</span>
+                                    <span id="statusT9" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT9"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT10" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T10</span>
+                                    <span id="statusT10" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT10"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3">                    
+                    <div class="info-box mb-3">
+                        <span id="iconS3" class="info-box-icon bg-default elevation-1"><i class="fas fa-memory"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">SW-S3</span>
+                            <span id="statusS3" class="info-box-number">-</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT11" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T11</span>
+                                    <span id="statusT11" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT11"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT12" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T12</span>
+                                    <span id="statusT12" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT12"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT13" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T13</span>
+                                    <span id="statusT13" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT13"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT14" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T14</span>
+                                    <span id="statusT14" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT14"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="info-box mb-3">
+                                <span id="iconT15" class="info-box-icon bg-default elevation-1"><i class="fas fa-mobile"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">T15</span>
+                                    <span id="statusT15" class="info-box-number">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 100px; width: 100%;" class="col-lg-10">
+                            <canvas id="chartT15"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+{% endblock content %}
+
+{# --- 5. CUSTOM FOOTER TEXT (Optional) --- #}
+{% block footer_text %}
+    Custom Footer Text for My App.
+{% endblock footer_text %}
+
+{# --- 6. ADD CUSTOM JS (Optional) --- #}
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx1 = document.getElementById('chartT1').getContext('2d');
+        const myChart1 = new Chart(ctx1, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#36A2EB',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx2 = document.getElementById('chartT2').getContext('2d');
+        const myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF6384',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx3 = document.getElementById('chartT3').getContext('2d');
+        const myChart3 = new Chart(ctx3, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#4BC0C0',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx4 = document.getElementById('chartT4').getContext('2d');
+        const myChart4 = new Chart(ctx4, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF9F40',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx5 = document.getElementById('chartT5').getContext('2d');
+        const myChart5 = new Chart(ctx5, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#9966FF',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx6 = document.getElementById('chartT6').getContext('2d');
+        const myChart6 = new Chart(ctx6, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#36A2EB',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx7 = document.getElementById('chartT7').getContext('2d');
+        const myChart7 = new Chart(ctx7, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF6384',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx8 = document.getElementById('chartT8').getContext('2d');
+        const myChart8 = new Chart(ctx8, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#4BC0C0',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx9 = document.getElementById('chartT9').getContext('2d');
+        const myChart9 = new Chart(ctx9, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF9F40',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx10 = document.getElementById('chartT10').getContext('2d');
+        const myChart10 = new Chart(ctx10, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#9966FF',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx11 = document.getElementById('chartT11').getContext('2d');
+        const myChart11 = new Chart(ctx11, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#36A2EB',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx12 = document.getElementById('chartT12').getContext('2d');
+        const myChart12 = new Chart(ctx12, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF6384',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx13 = document.getElementById('chartT13').getContext('2d');
+        const myChart13 = new Chart(ctx13 , {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#4BC0C0',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx14 = document.getElementById('chartT14').getContext('2d');
+        const myChart14 = new Chart(ctx14, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#FF9F40',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        const ctx15 = document.getElementById('chartT15').getContext('2d');
+        const myChart15 = new Chart(ctx15, {
+            type: 'line',
+            data: { 
+                labels: [], 
+                datasets: [{ 
+                    label: '', 
+                    data: [],
+                    stepped: true,               // Makes it a "staircase" chart
+                    borderColor: '#9966FF',      // Give it a nice color
+                    borderWidth: 2,
+                    pointRadius: 2,              // Small dots at the steps
+                    fill: false 
+                }] 
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: {
+                    legend: {
+                        display: false 
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,      // Ensures the bottom is always 0
+                        suggestedMax: 1        // Since your random is 10
+                    }
+                },
+                // Optional: Disable animations for faster live updates
+                animation: false 
+            }
+        });
+
+        let pingStatusS1 = {};
+        let pingStatusS2 = {};
+        let pingStatusS3 = {};
+
+        // Open connection
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/chart/');
+
+        socket.onmessage = function(e) {
+            const newData = JSON.parse(e.data);
+
+            var pingChart = null;
+            switch(newData.terminal_id) {
+                case 1:
+                    pingChart = myChart1;
+                    pingStatusS1['T1'] = newData.value;
+                    break;
+                case 2:
+                    pingChart = myChart2;
+                    pingStatusS1['T2'] = newData.value;
+                    break;
+                case 3:
+                    pingChart = myChart3;
+                    pingStatusS1['T3'] = newData.value;
+                    break;
+                case 4:
+                    pingChart = myChart4;
+                    pingStatusS1['T4'] = newData.value;
+                    break;
+                case 5:
+                    pingChart = myChart5;
+                    pingStatusS1['T5'] = newData.value;
+                    break;
+                case 6:
+                    pingChart = myChart6;
+                    pingStatusS2['T1'] = newData.value;
+                    break;
+                case 7:
+                    pingChart = myChart7;
+                    pingStatusS2['T2'] = newData.value;
+                    break;
+                case 8:
+                    pingChart = myChart8;
+                    pingStatusS2['T3'] = newData.value;
+                    break;
+                case 9:
+                    pingChart = myChart9;
+                    pingStatusS2['T4'] = newData.value;
+                    break;
+                case 10:
+                    pingChart = myChart10;
+                    pingStatusS2['T5'] = newData.value;
+                    break;
+                case 11:
+                    pingChart = myChart11;
+                    pingStatusS3['T1'] = newData.value;
+                    break;
+                case 12:
+                    pingChart = myChart12;
+                    pingStatusS3['T2'] = newData.value;
+                    break;
+                case 13:
+                    pingChart = myChart13;
+                    pingStatusS3['T3'] = newData.value;                        
+                    break;
+                case 14:
+                    pingChart = myChart14;
+                    pingStatusS3['T4'] = newData.value;
+                    break;
+                case 15:
+                    pingChart = myChart15;
+                    pingStatusS3['T5'] = newData.value;
+                    break;
+                default:
+                    console.error("Unknown terminal label: " + newData.terminal_id);
+                    return; // Exit the function if unknown label
+            }
+            
+            // Add new data to chart
+            pingChart.data.labels.push(newData.label);
+            pingChart.data.datasets[0].data.push(newData.value);
+
+            // Keep only last 20 points
+            if(pingChart.data.labels.length > 20) {
+                pingChart.data.labels.shift();
+                pingChart.data.datasets[0].data.shift();
+            }
+
+            pingChart.update();
+            updateTerminalStatus(newData.terminal_id, newData.value);
+            updateSwitchStatus(newData.switch_id);
+            
+        };
+
+        // Update status boxes
+            function updateTerminalStatus(terminalId, pingStatus) {
+
+                const iconElem = document.getElementById('iconT' + terminalId);
+                const statusElem = document.getElementById('statusT' + terminalId);
+
+                if (pingStatus === 1) {
+                    iconElem.className = 'info-box-icon bg-success elevation-1';
+                    statusElem.textContent = 'UP';
+                } else {
+                    iconElem.className = 'info-box-icon bg-danger elevation-1';
+                    statusElem.textContent = 'DOWN';
+                }
+            }
+
+            function updateSwitchStatus(switchId) {
+                let pingStatus = 0;
+
+                 const iconElem = document.getElementById('iconS' + switchId);
+                 const statusElem = document.getElementById('statusS' + switchId);
+                switch(switchId) {
+                    case 1:
+                        pingStatus = Object.values(pingStatusS1).includes(1) ? 1 : 0;
+                        break;
+                    case 2:
+                        pingStatus = Object.values(pingStatusS2).includes(1) ? 1 : 0;
+                        break;
+                    case 3:
+                        pingStatus = Object.values(pingStatusS3).includes(1) ? 1 : 0;
+                        break;
+                    default:
+                        console.error("Unknown switch ID: " + switchId);
+                        return; // Exit the function if unknown ID
+                }
+
+                if (pingStatus === 1) {
+                    iconElem.className = 'info-box-icon bg-success elevation-1';
+                    statusElem.textContent = 'UP';
+                } else {
+                    iconElem.className = 'info-box-icon bg-danger elevation-1';
+                    statusElem.textContent = 'DOWN';
+                }
+            }
+    </script>
+{% endblock extra_js %}
