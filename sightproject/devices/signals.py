@@ -1,5 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from devices.models import Switch, SwitchAlerts, SwitchStatus, SwitchTerminal, Terminal, TerminalStatus
 
@@ -86,3 +88,24 @@ def new_entry_handler(sender, instance, created, **kwargs):
                 switch_alert_entry = SwitchAlerts(switch_id=switch_id, alert_type='Ping Lost', log_at=instance.logtime, switchobj=switch)
                 switch_alert_entry.save()
                 print(f"--- ALERT: Ping Lost {switch_id} is ON at {instance.logtime}")
+
+
+
+@receiver(post_save, sender=SwitchStatus)
+def notify_chart_update(sender, instance, **kwargs):
+    channel_layer = get_channel_layer()
+    
+    # Prepare the data you want to send to the chart
+    data = {
+        "label": str(instance.timestamp),
+        "value": instance.value
+    }
+    
+    # Broadcast to the "live_chart_updates" group
+    async_to_sync(channel_layer.group_send)(
+        "live_chart_updates",
+        {
+            "type": "send_chart_update", # This matches the method in your Consumer
+            "data": data
+        }
+    )

@@ -17,4 +17,6 @@ urlpatterns = [
     path('alerts/', views.SwitchAlertsListView.as_view(), name='switch_alerts_list'),
 
     path('report/', views.RawDataListView.as_view(), name='raw_data_list'),
+
+    path('live/', views.switch_live, name='switch_live'),
 ]

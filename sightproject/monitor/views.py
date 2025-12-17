@@ -11,8 +11,8 @@ from datetime import datetime, timedelta
 def switch_status(request):
     return render(request, 'monitor/switch_status.html', {})
 
-
-
+def switch_live(request):
+    return render(request, 'monitor/switch_live_chart.html', {})
 
 class SwitchStatusChartView(View):
     """

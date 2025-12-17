@@ -1,0 +1,29 @@
+<canvas id="liveChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('liveChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Live Data', data: [] }] }
+    });
+
+    // Open connection
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/chart/');
+
+    socket.onmessage = function(e) {
+        const newData = JSON.parse(e.data);
+        
+        // Add new data to chart
+        myChart.data.labels.push(newData.label);
+        myChart.data.datasets[0].data.push(newData.value);
+        
+        // Keep only last 20 points
+        if(myChart.data.labels.length > 20) {
+            myChart.data.labels.shift();
+            myChart.data.datasets[0].data.shift();
+        }
+        
+        myChart.update();
+    };
+</script>

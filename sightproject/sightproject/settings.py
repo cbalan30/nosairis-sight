@@ -31,13 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',  # Must be above django.contrib.staticfiles    
     'adminlte3',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages',    
+    'channels',
     'django.contrib.staticfiles',    
+    
     'core',
     'monitor',
     'devices',
@@ -162,4 +165,17 @@ CELERY_TIMEZONE = "Asia/Kuala_Lumpur"
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
+
+
+ASGI_APPLICATION = 'sightproject.asgi.application'
+
+# Configuration for Redis (used to broadcast messages)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
